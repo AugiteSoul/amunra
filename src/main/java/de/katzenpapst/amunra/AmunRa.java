@@ -47,6 +47,7 @@ import de.katzenpapst.amunra.mob.entity.EntityARVillager;
 import de.katzenpapst.amunra.mob.entity.EntityPorcodon;
 import de.katzenpapst.amunra.mob.entity.EntityRobotVillager;
 import de.katzenpapst.amunra.proxy.ARSidedProxy;
+import de.katzenpapst.amunra.tile.TileEntityARChest;
 import de.katzenpapst.amunra.world.anubis.AnubisWorldProvider;
 import de.katzenpapst.amunra.world.horus.HorusWorldProvider;
 import de.katzenpapst.amunra.world.maahes.MaahesWorldProvider;
@@ -101,6 +102,7 @@ public class AmunRa
 	private int nextID = 0;
 
 	public static int multiOreRendererId;
+	public static int chestRendererId;
 
 	@SidedProxy(clientSide = "de.katzenpapst.amunra.proxy.ClientProxy", serverSide = "de.katzenpapst.amunra.proxy.ServerProxy")
     public static ARSidedProxy proxy;
@@ -202,6 +204,8 @@ public class AmunRa
     protected void initOtherEntities() {
     	registerNonMobEntity(EntityLaserArrow.class, "laserArrow", 150, 5, true);
     	registerNonMobEntity(EntityCryoArrow.class, "cryoArrow", 150, 5, true);
+
+    	GameRegistry.registerTileEntity(TileEntityARChest.class, "ARChest");
     }
 
 

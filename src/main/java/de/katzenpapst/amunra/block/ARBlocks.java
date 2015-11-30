@@ -1,14 +1,17 @@
 package de.katzenpapst.amunra.block;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import de.katzenpapst.amunra.block.bush.ARTreeSapling;
 import de.katzenpapst.amunra.block.bush.BlockBushMulti;
 import de.katzenpapst.amunra.block.bush.MethaneTallGrass;
 import de.katzenpapst.amunra.block.bush.PodSapling;
+import de.katzenpapst.amunra.block.chest.ARChest;
 import de.katzenpapst.amunra.block.ore.BlockOreMulti;
 import de.katzenpapst.amunra.block.ore.SubBlockOre;
 import de.katzenpapst.amunra.block.ore.SubBlockOreMultidrop;
 import de.katzenpapst.amunra.item.ItemDamagePair;
 import micdoodle8.mods.galacticraft.api.prefab.core.BlockMetaPair;
+import micdoodle8.mods.galacticraft.core.items.ItemBlockDesc;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
@@ -94,6 +97,7 @@ public class ARBlocks {
 	public static SubBlockOre subTin;
 	public static SubBlockOreMultidrop subTitanium;
 
+	public static Block testChest;
 
 
 	public static ItemStack getItemStack(BlockMetaPair input, int amount) {
@@ -261,11 +265,15 @@ public class ARBlocks {
 
 		setLeafDroppingSapling(blockMethaneLeaf, blockMethaneSapling);
 
+		// try to do my chest
+
+		ARChest chest = new ARChest("testchest", "amunra:testChest", "amunra:textures/model/testchest.png",  "amunra:textures/model/testchestlarge.png");
 
 
 
+		GameRegistry.registerBlock(chest, ItemBlockDesc.class, chest.getUnlocalizedName());
 
-
+		testChest = chest;
 
 		//((AbstractSapling)blockMethaneSapling.getBlock()).setWood(blockMethaneLog).setLeaves(blockMethaneLeaf);
 		//((AbstractSapling)blockPodSapling.getBlock()).setWood(blockMethaneLog).setLeaves(blockMethaneLeaf);

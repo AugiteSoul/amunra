@@ -6,6 +6,7 @@ import net.minecraftforge.common.MinecraftForge;
 import micdoodle8.mods.galacticraft.api.world.IGalacticraftWorldProvider;
 import micdoodle8.mods.galacticraft.core.client.CloudRenderer;
 import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -16,8 +17,11 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import de.katzenpapst.amunra.AmunRa;
 import de.katzenpapst.amunra.client.renderer.RenderLaserArrow;
+import de.katzenpapst.amunra.client.renderer.RendererBlockChest;
 import de.katzenpapst.amunra.client.renderer.RendererMultiOre;
+import de.katzenpapst.amunra.client.renderer.RendererTileEntityChest;
 import de.katzenpapst.amunra.entity.EntityBaseLaserArrow;
 import de.katzenpapst.amunra.event.SystemRenderEventHandler;
 import de.katzenpapst.amunra.mob.entity.EntityARVillager;
@@ -26,6 +30,7 @@ import de.katzenpapst.amunra.mob.entity.EntityRobotVillager;
 import de.katzenpapst.amunra.mob.render.RenderARVillager;
 import de.katzenpapst.amunra.mob.render.RenderPorcodon;
 import de.katzenpapst.amunra.mob.render.RenderRobotVillager;
+import de.katzenpapst.amunra.tile.TileEntityARChest;
 import de.katzenpapst.amunra.world.AmunraWorldProvider;
 import de.katzenpapst.amunra.world.SkyProviderDynamic;
 
@@ -53,6 +58,9 @@ public class ClientProxy extends ARSidedProxy {
     	ISimpleBlockRenderingHandler myISBRH = new RendererMultiOre();
     	RenderingRegistry.registerBlockHandler(myISBRH.getRenderId(), myISBRH);
 
+    	AmunRa.chestRendererId = RenderingRegistry.getNextAvailableRenderId();
+        RenderingRegistry.registerBlockHandler(new RendererBlockChest(AmunRa.chestRendererId));
+
     	SystemRenderEventHandler clientEventHandler = new SystemRenderEventHandler();
         FMLCommonHandler.instance().bus().register(clientEventHandler);
         MinecraftForge.EVENT_BUS.register(clientEventHandler);
@@ -68,6 +76,8 @@ public class ClientProxy extends ARSidedProxy {
 
     public static void registerEntityRenderers()
     {
+    	ClientRegistry.bindTileEntitySpecialRenderer(TileEntityARChest.class, new RendererTileEntityChest());
+
     	// here entity and renderer come together, as it seems
     	RenderingRegistry.registerEntityRenderingHandler(EntityPorcodon.class, new RenderPorcodon());
     	RenderingRegistry.registerEntityRenderingHandler(EntityARVillager.class, new RenderARVillager());
