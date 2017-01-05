@@ -63,7 +63,7 @@ import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraft.world.storage.WorldInfo;
 import net.minecraftforge.common.util.Constants;
 
-public class MothershipWorldProvider extends WorldProviderOrbit {
+public class MothershipWorldProvider extends WorldProviderZeroG implements ISendPacketsOnEntry {
 
     /**
      * Just to hold some stuff for transits
@@ -141,6 +141,8 @@ public class MothershipWorldProvider extends WorldProviderOrbit {
     protected TransitData potentialTransitData;
 
     protected boolean isAsyncUpdateRunning = false;
+
+    public int spaceStationDimensionID;
 
     // to compare with the value of the mothershipObj to see if we started/ended transit
     protected boolean isInTransit = false;
@@ -266,21 +268,6 @@ public class MothershipWorldProvider extends WorldProviderOrbit {
     public String getDimensionName()
     {
         return this.mothershipObj.getLocalizedName();
-    }
-
-    @Override
-    public String getPlanetToOrbit()
-    {
-        // This is the NAME of the DIMENSION where to fall to
-        // This shouldn't actually be ever used
-        return "Overworld";
-    }
-
-    @Override
-    public int getYCoordToTeleportToPlanet()
-    {
-        // hack.
-        return -1000;
     }
 
     @Override
@@ -782,25 +769,14 @@ public class MothershipWorldProvider extends WorldProviderOrbit {
         }
     }
 
-    @Override
-    public void updateSpinSpeed()
-    {
-        // noop
-    }
-
-    @Override
-    public boolean checkSS(BlockVec3 baseBlock, boolean placingThruster)
-    {
-
-        // for now, don't do anything in regard of boosters
-        return false;
-    }
 
     /**
      * Call this when player first login/transfer to this dimension
      * <p/>
      * TODO how can this code be called by other mods / plugins with teleports
      * (e.g. Bukkit)? See WorldUtil.teleportEntity()
+     *
+     * This must be called from eventhandlers
      *
      * @param player
      */
@@ -822,7 +798,8 @@ public class MothershipWorldProvider extends WorldProviderOrbit {
     @Override
     public void readFromNBT(NBTTagCompound nbt)
     {
-        this.doSpinning = false;
+        super.readFromNBT(nbt);
+
         //updateMothership();
         this.totalMass = nbt.getFloat("totalMass");
         this.totalNumBlocks = nbt.getLong("totalNumBlocks");
@@ -871,6 +848,7 @@ public class MothershipWorldProvider extends WorldProviderOrbit {
     @Override
     public void writeToNBT(NBTTagCompound nbt)
     {
+        super.writeToNBT(nbt);
         nbt.setFloat("totalMass", this.totalMass);
         nbt.setLong("totalNumBlocks", this.totalNumBlocks);
 

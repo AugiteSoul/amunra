@@ -19,9 +19,11 @@ import de.katzenpapst.amunra.AmunRa;
 import de.katzenpapst.amunra.ShuttleTeleportHelper;
 import de.katzenpapst.amunra.entity.spaceship.EntityShuttle;
 import de.katzenpapst.amunra.mob.DamageSourceAR;
+import de.katzenpapst.amunra.mothership.ISendPacketsOnEntry;
 import de.katzenpapst.amunra.mothership.Mothership;
 import de.katzenpapst.amunra.mothership.MothershipWorldData;
 import de.katzenpapst.amunra.mothership.MothershipWorldProvider;
+import de.katzenpapst.amunra.mothership.WorldProviderZeroG;
 import de.katzenpapst.amunra.network.packet.PacketSimpleAR;
 import micdoodle8.mods.galacticraft.api.galaxies.CelestialBody;
 import micdoodle8.mods.galacticraft.api.prefab.entity.EntityAutoRocket;
@@ -30,6 +32,7 @@ import micdoodle8.mods.galacticraft.api.prefab.entity.EntitySpaceshipBase.Rocket
 import micdoodle8.mods.galacticraft.api.vector.BlockVec3;
 import micdoodle8.mods.galacticraft.api.world.IOrbitDimension;
 import micdoodle8.mods.galacticraft.core.blocks.BlockUnlitTorch;
+import micdoodle8.mods.galacticraft.core.dimension.WorldProviderOrbit;
 import micdoodle8.mods.galacticraft.core.oxygen.ThreadFindSeal;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityOxygenSealer;
 import micdoodle8.mods.galacticraft.core.util.WorldUtil;
@@ -110,10 +113,17 @@ public class TickHandlerServer {
             AmunRa.packetPipeline.sendTo(new PacketSimpleAR(PacketSimpleAR.EnumSimplePacket.C_UPDATE_MOTHERSHIP_LIST, new Object[] {
                     msData
             }), thePlayer);
+
+            if (event.player.worldObj.provider instanceof ISendPacketsOnEntry)
+            {
+                ((ISendPacketsOnEntry) event.player.worldObj.provider).sendPacketsToClient((EntityPlayerMP) event.player);
+            }
         }
+
+
     }
 
-    /*@SubscribeEvent
+    @SubscribeEvent
     public void onPlayerChangedDimensionEvent(PlayerChangedDimensionEvent event) {
         // this is somewhat of a hack
         //event.player
@@ -122,7 +132,10 @@ public class TickHandlerServer {
         }
         MinecraftServer mcServer = FMLCommonHandler.instance().getMinecraftServerInstance();
         WorldServer ws = mcServer.worldServerForDimension(event.toDim);
-        if(ws.provider instanceof MothershipWorldProvider) {
+        if(ws.provider instanceof ISendPacketsOnEntry && event.player instanceof EntityPlayerMP) {
+            ((ISendPacketsOnEntry)ws.provider).sendPacketsToClient((EntityPlayerMP) event.player);
+        }
+        /*if(ws.provider instanceof MothershipWorldProvider) {
 
             //System.out.println("MUHKUH "+event.toDim+" isRemote: "+event.player.worldObj.isRemote);
             ChunkCoordinates spawn = event.player.getBedLocation(event.toDim);
@@ -131,8 +144,8 @@ public class TickHandlerServer {
             } else {
                 System.out.println("Player spawn on "+event.toDim+" is "+spawn.toString());
             }
-        }
-    }*/
+        }*/
+    }
 
 
     @SubscribeEvent
