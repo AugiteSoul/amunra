@@ -11,3 +11,12 @@
 - dyed oxygen masks (so that vos6434 calms down^^)
 - GC equipment items which use energy to do special things
 - GC equipment "armor stand", which equips/unequips everything onto you on rightclick, and also recharges things
+- methane sealer, to make the methane-breathing creatures able to survive other bodies -> by extension methane bubble maker
+- tractor beam, use lots (million(s) RF/s!) to move a mothership, without any intervention of anything in target MS
+- spaceships (abandoned or not) having neutral sentient crew, which can trade, and abandoned ships can be salvaged (?)
+- Make sentries drop rayguns (perhaps even batteries?)
+- ComputerCraft compat (functions to move MS, get current orbited body, get multi-sensor data)
+- gravity superior to 12.5 m/s² hurts user if he don't have enough armor, or if gravity is regulated, no need (support for MP gravity boots?)
+- Make MS ultraviolet panels don't work during MS transit, while GS solar wind panels outputs a fixed value RF/t (50 RF/t?)
+- Remote MS control? for harvest missions, like gas harvesting, or asteroid mining
+- gravitationnal attraction, like you go faster to a star/black hole than a moon, by example, it's determined by body's gravity value, would be very slight
